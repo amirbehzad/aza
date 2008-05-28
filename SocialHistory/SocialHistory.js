@@ -127,6 +127,10 @@ var SocialHistory = function( moreSites ){
     iframe.doc.body.linkColor = "#0000FF";
     iframe.doc.body.vlinkColor = "#800080";
     
+    document.body.alinkColor = "#0000FF";
+    document.body.linkColor = "#0000FF";
+    document.body.vlinkColor = "#800080";
+    
     // Return the iframe: iframe.doc contains the iframe.
     return iframe;
   }  
