@@ -127,9 +127,9 @@ var SocialHistory = function( moreSites ){
     iframe.doc.linkColor = "#0000FF";
     iframe.doc.vlinkColor = "#800080";
     
-    document.alinkColor = "#0000FF";
-    document.linkColor = "#0000FF";
-    document.vlinkColor = "#800080";
+    var style = iframe.doc.createElement( "style" );
+    style.innerHTML = "a:visited{color:#800080;}";
+    iframe.doc.body.appendChild( style );
 
     // Return the iframe: iframe.doc contains the iframe.
     return iframe;
