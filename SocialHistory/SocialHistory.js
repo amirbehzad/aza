@@ -161,7 +161,7 @@ var SocialHistory = function( moreSites ){
 	  // Return an array of visited sites.
 	  this.visitedSites = function() {
 	    return usedSites;
-	  }
+    }
 	  
 	  // Return true/false. If we didn't check the site, return -1.
 	  this.doesVisit = function( site ) {
