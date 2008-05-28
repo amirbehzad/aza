@@ -143,9 +143,10 @@ var SocialHistory = function( moreSites ){
   var links = iframe.doc.body.childNodes;
   for( var i=0; i<links.length; i++) {
     // Handle both Firefox/Safari, and IE (respectively)
+    var linkColor = getStyle(links[i], "color");
     var didVisit =
-      getStyle(links[i], "color") == "rgb(85, 26, 139)" || 
-      getStyle(links[i], "color") == "#810081";
+      linkColor == "rgb(85, 26, 139)" || 
+      linkColor == "#810081";
       
     if( didVisit ){
       visited[ links[i].innerHTML ] = true;
