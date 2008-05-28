@@ -48,15 +48,16 @@
 var SocialHistory = function( moreSites ){
 
   var sites = {
-    "Digg": ["http://digg.com", "http://digg.com/login"],
-    "Reddit": ["http://reddit.com"],
-    "SumbleUpon": ["http://stumbleupon.com"],
+    "Digg": ["http://digg.com", "http://digg.com/login", "http://www.digg.com"],
+    "Reddit": ["http://reddit.com", "http://www.reddit.com"],
+    "SumbleUpon": ["http://stumbleupon.com", "http://www.stumbleupon.com"],
     "Yahoo Buzz": ["http://buzz.yahoo.com"],
-    "Facebook": ["http://facebook.com/home.php"],
+    "Facebook": ["http://facebook.com/home.php", "http://facebook.com", "http://www.facebook.com/"],
     "Del.icio.us": ["https://secure.del.icio.us/login", "htts://del.icio.us/"],
     "MySpace": ["http://www.myspace.com/"],
     "Technorati": ["http://www.technorati.com"],
     "Newsvine": ["https://www.newsvine.com", "https://www.newsvine.com/_tools/user/login"],
+    "Songza": ["http://songza.com", "http://www.songza.com"],
     "Slashdot": ["http://slashdot.org/"],
     "Ma.gnolia": ["http://ma.gnolia.com/"],
     "Blinklist": ["http://www.blinklist.com"],
@@ -71,6 +72,7 @@ var SocialHistory = function( moreSites ){
     "Yahoo Bookmarks": ["http://bookmarks.yahoo.com"],
     "Xanga": ["http://xanga.com"],
     "Blogger": ["http://blogger.com"],
+    "Last.fm": ["http://www.last.fm/", "https://www.last.fm/login/"],
     "N4G": ["http://www.n4g.com"],
     "Faves": ["http://faves.com", "http://faves.com/home", "https://secure.faves.com/signIn"],
     "Simpy": ["http://www.simpy.com", "http://www.simpy.com/login"],
