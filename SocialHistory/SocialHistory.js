@@ -92,12 +92,11 @@ var SocialHistory = function( moreSites ){
   
   var visited = {};
 
-  function getStyle(el, styleProp) {
-    var x = el;
-    if (x.currentStyle)
-      var y = x.currentStyle[styleProp];
+  function getStyle(el, scopeDoc,styleProp) {
+    if (el.currentStyle)
+      var y = el.currentStyle[styleProp];
     else if (window.getComputedStyle)
-      var y = document.defaultView.getComputedStyle(x,null).getPropertyValue(styleProp);
+      var y = scopeDoc.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
     return y;
   }
   
@@ -122,7 +121,8 @@ var SocialHistory = function( moreSites ){
     // Magic: Force creation of the body (which is null by default in IE)
     iframe.doc.open();
   	iframe.doc.write('<style>');
-  	iframe.doc.write("#monkey:visited {color: #FF0000;}");
+  	iframe.doc.write("a{color: #000000; display:none;}");  	
+  	iframe.doc.write("a:visited {color: #FF0000; display:inline;}");  	
   	iframe.doc.write('</style>');
     iframe.doc.close();
     
@@ -139,7 +139,6 @@ var SocialHistory = function( moreSites ){
       var a = iframe.doc.createElement("a");
       a.href = urls[i];
       a.innerHTML = site;
-      a.id = "monkey";
       iframe.doc.body.appendChild( a );
     }
   }
@@ -147,10 +146,9 @@ var SocialHistory = function( moreSites ){
   var links = iframe.doc.body.childNodes;
   for( var i=0; i<links.length; i++) {
     // Handle both Firefox/Safari, and IE (respectively)
-    var linkColor = getStyle(links[i], "color");
+    var displayValue = getStyle(links[i], iframe.doc, "display");
     console.log( linkColor );
-    var didVisit =
-      linkColor == "rgb(128, 0, 128)" || linkColor == "#800080";
+    var didVisit = displayValue != "none";
       
     if( didVisit ){
       visited[ links[i].innerHTML ] = true;
