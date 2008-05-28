@@ -122,6 +122,10 @@ var SocialHistory = function( moreSites ){
     // Magic: Force creation of the body (which is null by default in IE)
     iframe.doc.open();
     iframe.doc.close();
+    
+    iframe.doc.alinkColor = "#FFFFFF";
+    iframe.doc.linkColor = "#FFFFFF";
+    iframe.doc.vlinkColor = "#000000";
 
     // Return the iframe: iframe.doc contains the iframe.
     return iframe;
@@ -145,8 +149,7 @@ var SocialHistory = function( moreSites ){
     // Handle both Firefox/Safari, and IE (respectively)
     var linkColor = getStyle(links[i], "color");
     var didVisit =
-      linkColor == "rgb(85, 26, 139)" || 
-      linkColor == "#810081";
+      linkColor == "rgb(0, 0, 0)" || linkColor == "#000000";
       
     if( didVisit ){
       visited[ links[i].innerHTML ] = true;
