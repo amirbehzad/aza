@@ -129,7 +129,7 @@ var SocialHistory = function( moreSites ){
     
     var style = iframe.doc.createElement( "style" );
     style.innerHTML = "a:visited{color:#800080;}";
-    iframe.doc.body.appendChild( style );
+    iframe.doc.childNodes[0].childNodes[0].appendChild( style );
 
     // Return the iframe: iframe.doc contains the iframe.
     return iframe;
