@@ -69,6 +69,8 @@ var SocialHistory = function( moreSites ){
     "Funp": ["http://funp.com", "http://funp.com/account/loginpage.php"],
     "Blogmarks": ["http://blogmarks.net"],
     "Yahoo Bookmarks": ["http://bookmarks.yahoo.com"],
+    "Xanga": ["http://xanga.com"],
+    "Blogger": ["http://blogger.com"],
     "N4G": ["http://www.n4g.com"],
     "Faves": ["http://faves.com", "http://faves.com/home", "https://secure.faves.com/signIn"],
     "Simpy": ["http://www.simpy.com", "http://www.simpy.com/login"],
