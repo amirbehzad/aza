@@ -109,8 +109,8 @@ var SocialHistory = function( moreSites ){
   // bindzus.wordpress.com/2007/12/24/adding-dynamic-contents-to-iframes
   function createIframe() {
     var iframe = document.createElement("iframe");
-    iframe.style.position = "absolute";
-    iframe.style.visibility = "hidden";
+    //iframe.style.position = "absolute";
+    //iframe.style.visibility = "hidden";
 
     document.body.appendChild(iframe);
 
@@ -121,15 +121,10 @@ var SocialHistory = function( moreSites ){
 
     // Magic: Force creation of the body (which is null by default in IE)
     iframe.doc.open();
+  	iframe.doc.write('<style>');
+  	iframe.doc.write("#monkey:visited {color: #FF0000;}");
+  	iframe.doc.write('</style>');
     iframe.doc.close();
-    
-    iframe.doc.body.alinkColor = "#0000FF";
-    iframe.doc.body.linkColor = "#0000FF";
-    iframe.doc.body.vlinkColor = "#800080";
-    
-    document.body.alinkColor = "#0000FF";
-    document.body.linkColor = "#0000FF";
-    document.body.vlinkColor = "#800080";
     
     // Return the iframe: iframe.doc contains the iframe.
     return iframe;
@@ -144,6 +139,7 @@ var SocialHistory = function( moreSites ){
       var a = iframe.doc.createElement("a");
       a.href = urls[i];
       a.innerHTML = site;
+      a.id = "monkey";
       iframe.doc.body.appendChild( a );
     }
   }
@@ -161,7 +157,7 @@ var SocialHistory = function( moreSites ){
     }
   }
   
-  remove( iframe );
+  //remove( iframe );
   
   return new (function(){
     var usedSites = [];
