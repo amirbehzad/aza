@@ -147,7 +147,6 @@ var SocialHistory = function( moreSites ){
   for( var i=0; i<links.length; i++) {
     // Handle both Firefox/Safari, and IE (respectively)
     var displayValue = getStyle(links[i], iframe.doc, "display");
-    console.log( linkColor );
     var didVisit = displayValue != "none";
       
     if( didVisit ){
