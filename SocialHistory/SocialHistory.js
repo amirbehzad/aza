@@ -126,57 +126,57 @@ var SocialHistory = function( moreSites ){
   }  
 
   var iframe = createIframe();
-	
-	for( var site in sites ) {
-	  var urls = sites[site];
-	  for( var i=0; i<urls.length; i++ ) {
-	    // You have to create elements in the scope of the iframe for IE.
-	    var a = iframe.doc.createElement("a");
-	    a.href = urls[i];
-	    a.innerHTML = site;
-	    iframe.doc.body.appendChild( a );
-	  }
-	}
-		
-	var links = iframe.doc.body.childNodes;
-	for( var i=0; i<links.length; i++) {
-	  // Handle both Firefox/Safari, and IE (respectively)
-	  var didVisit =
-	    getStyle(links[i], "color") == "rgb(85, 26, 139)" || 
-	    getStyle(links[i], "color") == "#810081";
-	    
-	  if( didVisit ){
-	    visited[ links[i].innerHTML ] = true;
-	  }
-	}
-	
-  remove( iframe );
-	
-	return new (function(){
-	  var usedSites = [];
-	  for( var site in visited ){
-	    usedSites.push( site );
-	  }
-	  
-	  // Return an array of visited sites.
-	  this.visitedSites = function() {
-	    return usedSites;
+  
+  for( var site in sites ) {
+    var urls = sites[site];
+    for( var i=0; i<urls.length; i++ ) {
+      // You have to create elements in the scope of the iframe for IE.
+      var a = iframe.doc.createElement("a");
+      a.href = urls[i];
+      a.innerHTML = site;
+      iframe.doc.body.appendChild( a );
     }
-	  
-	  // Return true/false. If we didn't check the site, return -1.
-	  this.doesVisit = function( site ) {
-	    if( typeof( sites[site] ) == "undefined" )
-	      return -1;
-	    return typeof( visited[site] ) != "undefined";
-	  }
-	  
-	  var checkedSites = [];
-	  for( var site in sites ){
-	    checkedSites.push( site );
-	  }
-	  // Return a list of the sites checked.
-	  this.checkedSites = function(){
-	    return checkedSites;
-	  }
-	})();
+  }
+    
+  var links = iframe.doc.body.childNodes;
+  for( var i=0; i<links.length; i++) {
+    // Handle both Firefox/Safari, and IE (respectively)
+    var didVisit =
+      getStyle(links[i], "color") == "rgb(85, 26, 139)" || 
+      getStyle(links[i], "color") == "#810081";
+      
+    if( didVisit ){
+      visited[ links[i].innerHTML ] = true;
+    }
+  }
+  
+  remove( iframe );
+  
+  return new (function(){
+    var usedSites = [];
+    for( var site in visited ){
+      usedSites.push( site );
+    }
+    
+    // Return an array of visited sites.
+    this.visitedSites = function() {
+      return usedSites;
+    }
+    
+    // Return true/false. If we didn't check the site, return -1.
+    this.doesVisit = function( site ) {
+      if( typeof( sites[site] ) == "undefined" )
+        return -1;
+      return typeof( visited[site] ) != "undefined";
+    }
+    
+    var checkedSites = [];
+    for( var site in sites ){
+      checkedSites.push( site );
+    }
+    // Return a list of the sites checked.
+    this.checkedSites = function(){
+      return checkedSites;
+    }
+  })();
 }
