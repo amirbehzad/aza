@@ -49,11 +49,11 @@ var SocialHistory = function( moreSites ){
 
   var sites = {
     "Digg": ["http://digg.com", "http://digg.com/login", "http://www.digg.com"],
-    "Reddit": ["http://reddit.com", "http://www.reddit.com"],
-    "SumbleUpon": ["http://stumbleupon.com", "http://www.stumbleupon.com"],
+    "Reddit": ["http://reddit.com", "http://www.reddit.com", "http://reddit.com/new/", "http://reddit.com/controversial/", "http://reddit.com/top/", "http://reddit.com/r/reddit.com/", "http://reddit.com/r/programming/"],
+    "StumbleUpon": ["http://stumbleupon.com", "http://www.stumbleupon.com"],
     "Yahoo Buzz": ["http://buzz.yahoo.com"],
     "Facebook": ["http://facebook.com/home.php", "http://facebook.com", "http://www.facebook.com/"],
-    "Del.icio.us": ["https://secure.del.icio.us/login", "htts://del.icio.us/"],
+    "Del.icio.us": ["https://secure.del.icio.us/login", "http://del.icio.us/"],
     "MySpace": ["http://www.myspace.com/"],
     "Technorati": ["http://www.technorati.com"],
     "Newsvine": ["https://www.newsvine.com", "https://www.newsvine.com/_tools/user/login"],
