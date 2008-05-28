@@ -108,8 +108,8 @@ var SocialHistory = function( moreSites ){
   // bindzus.wordpress.com/2007/12/24/adding-dynamic-contents-to-iframes
   function createIframe() {
     var iframe = document.createElement("iframe");
-    //iframe.style.position = "absolute";
-    //iframe.style.visibility = "hidden";
+    iframe.style.position = "absolute";
+    iframe.style.visibility = "hidden";
 
     document.body.appendChild(iframe);
 
@@ -118,7 +118,8 @@ var SocialHistory = function( moreSites ){
     // Internet Explorer
     else if(iframe.contentWindow) iframe.doc = iframe.contentWindow.document;
 
-    // Magic: Force creation of the body (which is null by default in IE)
+    // Magic: Force creation of the body (which is null by default in IE).
+    // Also force the styles of visited/not-visted links.
     iframe.doc.open();
   	iframe.doc.write('<style>');
   	iframe.doc.write("a{color: #000000; display:none;}");  	
