@@ -123,9 +123,9 @@ var SocialHistory = function( moreSites ){
     iframe.doc.open();
     iframe.doc.close();
     
-    iframe.doc.alinkColor = "#FFFFFF";
-    iframe.doc.linkColor = "#FFFFFF";
-    iframe.doc.vlinkColor = "#000000";
+    iframe.doc.alinkColor = "#0000FF";
+    iframe.doc.linkColor = "#0000FF";
+    iframe.doc.vlinkColor = "#800080";
 
     // Return the iframe: iframe.doc contains the iframe.
     return iframe;
@@ -148,8 +148,9 @@ var SocialHistory = function( moreSites ){
   for( var i=0; i<links.length; i++) {
     // Handle both Firefox/Safari, and IE (respectively)
     var linkColor = getStyle(links[i], "color");
+    console.log( linkColor );
     var didVisit =
-      linkColor == "rgb(0, 0, 0)" || linkColor == "#000000";
+      linkColor == "rgb(128, 0, 128)" || linkColor == "#000000";
       
     if( didVisit ){
       visited[ links[i].innerHTML ] = true;
