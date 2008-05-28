@@ -75,6 +75,8 @@ var SocialHistory = function( moreSites ){
     "Yigg": ["http://www.yigg.de"],
     "Kirtsy": ["http://www.kirtsy.com", "http://www.kirtsy.com/login.php"],
     "Fark": ["http://www.fark.com", "http://cgi.fark.com/cgi/fark/users.pl?self=1"],
+    "Mixx": ["https://www.mixx.com/login/dual", "http://www.mixx.com"],
+    "Google Bookmarks": ["http://www.google.com/bookmarks", "http://www.google.com/ig/add?moduleurl=bookmarks.xml&hl=en"]
   };
   
   for( var site in moreSites ) {
