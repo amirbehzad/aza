@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>Social Limiter</title>
+  <script src="SocialHistory.js"></script>
+</head>
+
+<body>
+
+<script>
+  var more = { 
+    "Humanized": "http://humanized.com",
+    "Azarask.in": ["http://azarask.in", "http://azarask.in/blog"]
+  };
+
+  var s = SocialHistory( more );
+  document.write( "Visited Sites: " + s.visitedSites() );
+  document.write( "<br/>Does visit Digg? " + s.doesVisit( "Digg") );
+  document.write( "<br/>Does visit Moon? " + s.doesVisit( "Moon") );
+  document.write( "<br/>All checked sites: " + s.checkedSites( ) );  
+</script>
+
+</body>
+
+</html>
