@@ -7,7 +7,7 @@
  * 
  * For example:
  * 
- *    var sl = History();
+ *    var sl = SocialHistory();
  *    alert( sl.doesVisit("Digg") ); // Returns true/false, -1 if unknown.
  *    var listOfVisitedSites = sl.visitedSites();
  *    var checkedSites = sl.checkedSites();
@@ -18,7 +18,7 @@
  *    var more = { "Humanized": "http://humanized.com",
  *                 "Azarask.in": ["http://azarask.in", "http://azarask.in/blog"]
  *               };
- *    var sl = History(more);
+ *    var sl = SocialHistory(more);
  *    alert( sl.doesVisit("Humanized") );
  *
  * For a list of built-in sites, see the sites variable below.
