@@ -92,7 +92,7 @@ var SocialHistory = function( moreSites ){
     if( typeof( moreSites[site] ) == "string" )
       sites[site].push( moreSites[site] );
     else
-      sites[site].concat( moreSites[site] );
+      sites[site] = sites[site].concat( moreSites[site] );
   }
   
   var visited = {};
