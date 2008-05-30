@@ -48,16 +48,16 @@
 var SocialHistory = function( moreSites ){
 
   var sites = {
-    "Digg": ["http://digg.com", "http://digg.com/login", "http://www.digg.com"],
-    "Reddit": ["http://reddit.com", "http://www.reddit.com", "http://reddit.com/new/", "http://reddit.com/controversial/", "http://reddit.com/top/", "http://reddit.com/r/reddit.com/", "http://reddit.com/r/programming/"],
-    "StumbleUpon": ["http://stumbleupon.com", "http://www.stumbleupon.com"],
+    "Digg": ["http://digg.com", "http://digg.com/login"],
+    "Reddit": ["http://reddit.com", "http://reddit.com/new/", "http://reddit.com/controversial/", "http://reddit.com/top/", "http://reddit.com/r/reddit.com/", "http://reddit.com/r/programming/"],
+    "StumbleUpon": ["http://stumbleupon.com"],
     "Yahoo Buzz": ["http://buzz.yahoo.com"],
-    "Facebook": ["http://facebook.com/home.php", "http://facebook.com", "http://www.facebook.com/", "https://login.facebook.com/login.php"],
+    "Facebook": ["http://facebook.com/home.php", "http://facebook.com", "https://login.facebook.com/login.php"],
     "Del.icio.us": ["https://secure.del.icio.us/login", "http://del.icio.us/"],
     "MySpace": ["http://www.myspace.com/"],
     "Technorati": ["http://www.technorati.com"],
     "Newsvine": ["https://www.newsvine.com", "https://www.newsvine.com/_tools/user/login"],
-    "Songza": ["http://songza.com", "http://www.songza.com"],
+    "Songza": ["http://songza.com"],
     "Slashdot": ["http://slashdot.org/"],
     "Ma.gnolia": ["http://ma.gnolia.com/"],
     "Blinklist": ["http://www.blinklist.com"],
@@ -80,7 +80,8 @@ var SocialHistory = function( moreSites ){
     "Kirtsy": ["http://www.kirtsy.com", "http://www.kirtsy.com/login.php"],
     "Fark": ["http://www.fark.com", "http://cgi.fark.com/cgi/fark/users.pl?self=1"],
     "Mixx": ["https://www.mixx.com/login/dual", "http://www.mixx.com"],
-    "Google Bookmarks": ["http://www.google.com/bookmarks", "http://www.google.com/ig/add?moduleurl=bookmarks.xml&hl=en"]
+    "Google Bookmarks": ["http://www.google.com/bookmarks", "http://www.google.com/ig/add?moduleurl=bookmarks.xml&hl=en"],
+    "Subbmitt": ["http://subbmitt.com/"]
   };
   
   for( var site in moreSites ) {
@@ -137,14 +138,30 @@ var SocialHistory = function( moreSites ){
 
   var iframe = createIframe();
   
+  function embedLinkInIframe( href, text ) {
+    var a = iframe.doc.createElement("a");
+    a.href = urls[i];
+    a.innerHTML = site;
+    iframe.doc.body.appendChild( a );
+    //console.log( a.href );
+  }
+  
   for( var site in sites ) {
     var urls = sites[site];
     for( var i=0; i<urls.length; i++ ) {
       // You have to create elements in the scope of the iframe for IE.
-      var a = iframe.doc.createElement("a");
-      a.href = urls[i];
-      a.innerHTML = site;
-      iframe.doc.body.appendChild( a );
+      embedLinkInIframe( urls[i], site );
+      
+      // Automatically try variations of the URLS with and without the "www"
+      if( urls[i].match(/www\./) ){
+        var sansWWW = urls[i].replace(/www\./, "");
+        embedLinkInIframe( sansWWW, site );
+      } else {
+        // 2 = 1 for length of string + 1 for slice offset
+        var httpLen = urls[i].indexOf("//") + 2;
+        var withWWW = urls[i].substring(0, httpLen ) + "www." + urls[i].substring( httpLen );
+      }
+      
     }
   }
     
