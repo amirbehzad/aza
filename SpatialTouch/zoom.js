@@ -589,7 +589,7 @@ function init(){
   //zui.add( new ZScroll("tab_images/bookmarks.gif", 1400, 600, "Bookmarks") )
 
   zui.add( new ZNewTab("gfx/BigPlus.png", 200, 200, "New Tab") );
-  zui.add( new ZScroll("tab_images/bookmarks.gif", 700, 100, "Bookmarks") )
+  zui.add( new ZScroll("tab_images/Bookmarks.gif", 700, 100, "Bookmarks") )
 
   zui.recalculateBoundingBox();
   zui.zoomHere();
