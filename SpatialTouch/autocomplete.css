@@ -1,0 +1,56 @@
+.ac_input {
+	width: 300px;
+}
+.ac_results {
+	width: 300px;
+	background: #cc6600;
+	cursor: pointer;
+	position: absolute;
+	left: 0;
+	font-size: 80%;
+	z-index: 1000;
+	text-align: left;
+}
+.ac_results ul {
+	width: 300px;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border: 1px solid #000;
+}
+.ac_results iframe
+{
+	display:none;/*sorry for IE5*/
+	display/**/:block;/*sorry for IE5*/
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+	filter:mask();
+	width:3000px;
+	height:3000px;
+}
+.ac_results li {
+	width: 290px;
+	padding: 2px 5px;
+}
+.ac_results a {
+	width: 100%;
+}
+.ac_loading {
+	background : url('/jquery/img/indicator.gif') right center no-repeat;
+}
+.over {
+	background: #ee8822;
+}
+
+.not_selected {
+	opacity: .5;
+}
+
+small{
+	display: block;
+	font-size: 70%;
+	color: #fff;
+}

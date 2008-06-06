@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Fennec Tabs!</title>
+    <script>
+      window.innerHeight = 480;
+      window.innerWidth = 800;
+    </script>
+    
+    <script type="text/javascript" src="extend.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="interface.js"></script>
+    <script type="text/javascript" src="inplace.js"></script>
+    <script type="text/javascript" src="autocomplete.js"></script>
+    <script type="text/javascript" src="zoom.js"></script>  
+
+    <link rel="stylesheet" type="text/css" href="autocomplete.css" />
+
+    <style type="text/css">
+      body{ background-color: #111; text-align:center;margin-top:50px; overflow: hidden;}
+	  h1{ position: fixed; top: 10px; left: 35%; color: #151515; z-index: -100; font-family: Helvetica; font-size: 100pt;}
+	  h2{ color: white; font-family: Helvetica; font-weight: normal;}
+	  .trash{ position: fixed; color: #white;}
+    </style>
+  </head>
+  <body onload="init();">
+	<div id="trash">Trash</div>
+  </body>
+</html>
