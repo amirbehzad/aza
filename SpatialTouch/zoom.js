@@ -42,12 +42,6 @@ function ZUI( ){
         this.draw();
     }
 
-    this.pointIn = function( x, y, rect ){
-        if( x >= rect.x && x < rect.x+rect.width && y >= rect.y && y < rect.y+rect.height ) return true
-        return false
-    }
-
-
     this.getLocation = function( ){
         return {"x": this.x, "y": this.y, "scale": this.scale}
     }
@@ -110,6 +104,17 @@ function ZUI( ){
         item.setId( "zui_"+this.items.length );
         this.items.push( item );
     }
+    
+    this.remove = function( item ){
+      index = this.items.indexOf( item );
+      // TODO: THIS IS A HACK! FIX IT.
+      $(item.main).css({display:"none"});
+      $(item.name).css({display:"none"});
+      item.width = 0;
+      item.height = 0;
+      item.x = 0;
+      item.y = 0;
+    }
 
     this.draw = function(){
         for( i in this.items ){
@@ -150,34 +155,62 @@ function ZUI( ){
       this.boundingBox = boundingBox;
   }
   
-  // A rect = { x:x, y:y, width:width, height:height }
-  this.doesRectCollude = function( rect ) {
-    for( var i=0; i< this.items.length; i++ ) {
-      console.log( rect )
-      if( this.items[i].overlapsRect(rect) ){
-        console.log( "TRUE" )
-        return true;
-      }
-    }
-    return false;
-  }
   
-  this.findOpenLocation = function( width, height ) {
-    var dist = 2;
-    console.log( "" );
+  this.findOpenLocation = function( width, height ) {    
+    function isPointInsideObject( x, y, z ) {
+      isXInside = x >= z.x && x <= z.x+z.width;
+      isYInside = y >= z.y && y <= z.y+z.height;
+      isInside = isXInside && isYInside;
+      return isInside;
+    }
     
-    //while( 1 ) {
-      for( var i=0; i<=dist; i++){
-        var rect = {x:i*dist, y:height*dist, width:width, height:height};
-        if( !this.doesRectCollude( rect ) )
-          return rect; // TODO: Step back to find first open space...
-        
-        //var rect = {x:width*dist, y:width*i, width:width, height:height};
-        //if( !this.doesRectCollude( rect ) )
-        //  return rect;  // TODO: See above.
+    function doRectsOverlap( rectA, rectB ){
+      // A inside B?
+      var isTopLeftInside = isPointInsideObject( rectA.x, rectA.y, rectB );
+      var isBottomRightInside = isPointInsideObject( rectA.x+rectA.width, rectA.y+rectA.height, rectB );
+      var isTopRightInside = isPointInsideObject( rectA.x+rectA.width, rectA.y, rectB );
+      var isBottomLeftInside = isPointInsideObject( rectA.x, rectA.y+rectA.height, rectB );
+      var isAInsideB = isTopLeftInside || isBottomRightInside || isTopRightInside || isBottomLeftInside;
+
+      // B inside A?      
+      var isTopLeftInside = isPointInsideObject( rectB.x, rectB.y, rectA );
+      var isBottomRightInside = isPointInsideObject( rectB.x+rectB.width, rectB.y+rectB.height, rectA );
+      var isTopRightInside = isPointInsideObject( rectB.x+rectB.width, rectB.y, rectA );
+      var isBottomLeftInside = isPointInsideObject( rectB.x, rectB.y+rectB.height, rectA );
+      var isBInsideA = isTopLeftInside || isBottomRightInside || isTopRightInside || isBottomLeftInside;
+      
+      // If either is true, they overlap
+      return isAInsideB || isBInsideA;     
+    }
+  
+    function doesOverlapAnything( rect ) {
+
+      for(var i=0;i<zui.items.length;i++){
+        var overlaps = doRectsOverlap( rect, zui.items[i] );
+        if( overlaps ){ return true; }
       }
-      //dist += 1;
-    //}
+      return false;
+    }
+        
+    var dist = 2;
+    var subDivide = 8;
+    var padding = 100;
+    width += 100;
+    height += 100;
+
+    while( 1 ){
+      for( var i=0; i<=(dist-1)*subDivide; i++){
+        var rect = {x:width*dist+padding, y:i*dist/subDivide*height+padding, width:width, height:height};
+        if( !doesOverlapAnything( rect ) )
+          return rect;
+
+        var rect = {x:i*dist/subDivide*width+padding, y:height*dist+padding, width:width, height:height};
+        if( !doesOverlapAnything( rect ) )
+          return rect;
+      }
+      dist += 1;
+    }
+  
   }
 
 }
@@ -384,16 +417,6 @@ var ZObject = Extend.Class({
         this.cW = this.width*zui.scale;
         this.cH = this.height*zui.scale;
     },
-    overlapsRect: function( rect ){
-      var sX = this.x;
-      var sY = this.y;
-      var sW = this.width;
-      var sH = this.width;
-      if( zui.pointIn(sX, sY, rect) || zui.pointIn(sX+sW, sY+sH, rect) )
-        return true
-        
-      return false
-    },
     draw: function(){
         this.calcBounds()
     },
@@ -450,6 +473,27 @@ var ZNewTab = Extend.Class({
       zui.recalculateBoundingBox();
       zui.draw();
       zui.zoomHere();
+      $(newTab.main).css({opacity:0})
+      
+      setTimeout( function(){
+        $(newTab.main).animate({opacity:1}, 1500);        
+      }, 200)
+      setTimeout( function(){
+        newTab.zoomHere();  
+      }, 900);
+      
+      $(newTab.main).dblclick( function(){
+        var images = [ "humanized.gif", "slashdot.gif", "toolness.gif", "reddit.gif" ];
+        var names = ["Humanized", "Slashdot", "Toolness", "Reddit"]
+        var r = parseInt( Math.random()*images.length );
+        var navTab = new ZScroll("tab_images/" + images[r], newTab.x, newTab.y, names[r]);
+        zui.add( navTab );
+        navTab.zoomHere();
+        
+        zui.remove( newTab );        
+      })
+      
+      //makePagesDraggable();
       //newTab.zoomHere();
     }
   }
@@ -583,10 +627,6 @@ function init(){
   zui.add( new ZScroll("tab_images/humanized.gif", 900, 100, "Humanized") )
   //zui.add( new ZScroll("tab_images/newtab.gif", 1750, 100, "New Tab") )
   */
-  
-  
-  //zui.add( new ZNewTab("gfx/BigPlus.png", 600, 680, "New Tab") );
-  //zui.add( new ZScroll("tab_images/bookmarks.gif", 1400, 600, "Bookmarks") )
 
   zui.add( new ZNewTab("gfx/BigPlus.png", 200, 200, "New Tab") );
   zui.add( new ZScroll("tab_images/Bookmarks.gif", 700, 100, "Bookmarks") )
