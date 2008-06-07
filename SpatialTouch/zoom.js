@@ -491,10 +491,7 @@ var ZNewTab = Extend.Class({
         navTab.zoomHere();
         
         zui.remove( newTab );        
-      })
-      
-      //makePagesDraggable();
-      //newTab.zoomHere();
+      })      
     }
   }
 })
@@ -619,14 +616,6 @@ function unbindActions(){
 
 function init(){
   zui = new ZUI();
-
-  /*
-  zui.add( new ZScroll("tab_images/slashdot.gif", 50, 100, "Slashdot") )
-  zui.add( new ZScroll("tab_images/reddit.gif", 50, 750, "Reddit") )    
-  zui.add( new ZScroll("tab_images/toolness.gif", 900, 750, "Toolness") )
-  zui.add( new ZScroll("tab_images/humanized.gif", 900, 100, "Humanized") )
-  //zui.add( new ZScroll("tab_images/newtab.gif", 1750, 100, "New Tab") )
-  */
 
   zui.add( new ZNewTab("gfx/BigPlus.png", 200, 200, "New Tab") );
   zui.add( new ZScroll("tab_images/Bookmarks.gif", 700, 100, "Bookmarks") )
