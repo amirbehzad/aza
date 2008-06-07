@@ -578,7 +578,6 @@ var ZScroll = Extend.Class({
 
 
 function showUrlBar() {
-  console.log("showing");
   // If the URL bar element doesn't exist, make it.
   if( $("#urlbar").length == 0 ) {
     var image = document.createElement( "img" );
@@ -586,7 +585,7 @@ function showUrlBar() {
     image.id = "urlbar";
     $(image).css({
       position: "fixed",
-      top: 0,//-image.height,
+      top: 0,
       right: 0,
       zIndex: 10000,
       opcaity: 0,
@@ -594,13 +593,10 @@ function showUrlBar() {
     $(document.body).append( image );
   }
 
-  //$(image).animate({top:0});
   $("#urlbar:hidden").fadeIn();
 }
 
 function hideUrlBar() {
-  console.log('hiding')
-  //$("#urlbar").animate({top:-64});  
   $("#urlbar:visible").fadeOut();
 }
 
