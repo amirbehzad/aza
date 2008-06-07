@@ -108,6 +108,7 @@ function ZUI( ){
     this.remove = function( item ){
       index = this.items.indexOf( item );
       // TODO: THIS IS A HACK! FIX IT.
+      // It doesn't actually remove the item, it just hides it.
       $(item.main).css({display:"none"});
       $(item.name).css({display:"none"});
       item.width = 0;
@@ -192,7 +193,7 @@ function ZUI( ){
       return false;
     }
         
-    var dist = 2;
+    var dist = 0;
     var subDivide = 8;
     var padding = 100;
     width += 100;
@@ -256,13 +257,18 @@ Tab = function( div ) {
 
   
   this.setScroll = function( pos ) {
-    var top = pos.top == null? this.realTop : pos.top;
-    var left = pos.left == null? this.realLeft : pos.left;
+    var top = pos.top == null ? this.realTop : pos.top;
+    var left = pos.left == null ? this.realLeft : pos.left;
     
     $(self.img).css("top", top);
     $(self.img).css("left", left);    
     this.realTop = top;
     this.realLeft = left;
+    
+    // Move the URL Bar
+    $("#urlbar").css({
+      left: left
+    })
     
     // Background magic. This syncs it up with the dragging.
     var offsetHeight = $(self.main).height() - $(self.img).height();
@@ -325,6 +331,7 @@ Tab = function( div ) {
   this.mouseUp = function( e ) {
     function delayedZoomOut(){
       setTimeout( function(){
+        hideUrlBar();
         self.animateScroll({left:0, speed:200});
         makePagesDraggable();
         zui.zoomHere();
@@ -332,19 +339,21 @@ Tab = function( div ) {
     }
     
     self.mouseState = "up";
-    
+  
     var cTop = self.realTop;
     if( cTop > 0 ){      
       self.animateScroll({ top:0, speed: 200 });
-      if( cTop > 300 )
+      if( cTop > 300 ){
         delayedZoomOut();    
+      }
     }
     
     var offsetHeight = $(self.main).height() - $(self.img).height();
     if( cTop < offsetHeight ){
       self.animateScroll({ top:offsetHeight, speed: 200 });
-      if( offsetHeight - cTop > 300 )       
+      if( offsetHeight - cTop > 300 ){    
         delayedZoomOut();
+      }
     }
         
     var cLeft = self.realLeft;
@@ -352,19 +361,24 @@ Tab = function( div ) {
       
       if( cLeft > 50 && cLeft < 300){
         self.setScroll({left:100});
+        showUrlBar();
       }
-      else
+      else{
         self.animateScroll({left: 0, speed: 150});
-      
-      if( cLeft > 300 )       
+        hideUrlBar();
+      }
+        
+      if( cLeft > 300 ){
         delayedZoomOut();
+      }
     }
     
     if( cLeft < 0 ){
       self.animateScroll({left: 0, speed: 150});
-      if( cLeft < -300 )       
-       delayedZoomOut();
-
+      hideUrlBar();
+      if( cLeft < -300 ){
+        delayedZoomOut();
+      }
     }
 
     
@@ -563,6 +577,33 @@ var ZScroll = Extend.Class({
 })
 
 
+function showUrlBar() {
+  console.log("showing");
+  // If the URL bar element doesn't exist, make it.
+  if( $("#urlbar").length == 0 ) {
+    var image = document.createElement( "img" );
+    image.src = "gfx/UrlBar.png";
+    image.id = "urlbar";
+    $(image).css({
+      position: "fixed",
+      top: 0,//-image.height,
+      right: 0,
+      zIndex: 10000,
+      opcaity: 0,
+    })
+    $(document.body).append( image );
+  }
+
+  //$(image).animate({top:0});
+  $("#urlbar:hidden").fadeIn();
+}
+
+function hideUrlBar() {
+  console.log('hiding')
+  //$("#urlbar").animate({top:-64});  
+  $("#urlbar:visible").fadeOut();
+}
+
 function makePagesDraggable(){
     $(".zscroll").Draggable({
       zIndex: 1000,
@@ -636,9 +677,7 @@ function init(){
   }
 
   $(window).keydown( function(e) {
-    // Alt-O
     if( e.keyCode == 79 ){
-      //&& e.altKey
       zui.zoomHere();
       makePagesDraggable()
       return false;
