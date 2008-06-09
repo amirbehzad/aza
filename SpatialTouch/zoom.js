@@ -194,7 +194,7 @@ function ZUI( ){
     }
         
     var dist = 0;
-    var subDivide = 8;
+    var subDivide = 3;
     var padding = 100;
     width += 100;
     height += 100;
