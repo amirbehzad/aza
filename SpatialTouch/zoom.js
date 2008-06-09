@@ -243,6 +243,10 @@ Tab = function( div ) {
   this.realTop = 0;
   this.realLeft = 0;
   
+  this.kineticScrollSpeed = null;
+  
+  this.mousePositions = [];
+  
   var self = this;
   
   this.getCurrentTop = function() {
@@ -270,6 +274,7 @@ Tab = function( div ) {
       left: left
     })
     
+    
     // Background magic. This syncs it up with the dragging.
     var offsetHeight = $(self.main).height() - $(self.img).height();
     if( top > 0 ){
@@ -293,8 +298,13 @@ Tab = function( div ) {
     }
 
     else if( left < 0 ){
+      var bImage = "url(gfx/ZoomOutRight.png)";
+      if( left < -212 ){
+        bImage = "url(gfx/ZoomOutRightOn.png)";
+      }
+      
       $(this.main).css({
-        "background-image":"url(gfx/ZoomOutRight.png)",
+        "background-image": bImage,
         "backgroundPosition": left + " 0"
       });      
     }
@@ -317,6 +327,25 @@ Tab = function( div ) {
     $(self.img).animate({ top: top, left:left }, speed);
     this.realTop = top;
     this.realLeft = left;        
+  };
+  
+  this.kineticScroll = function( speed ) {
+    var timeStep = 5;
+    
+    if( typeof(speed) != "undefined" ){
+      self.kineticScrollSpeed = speed;
+    }
+        
+    if( Math.abs(self.kineticScrollSpeed) < .01 ) return;
+    if( self.realTop > 0 ) return;
+    if( self.realTop <  $(self.main).height() - $(self.img).height() ) return;
+    
+    self.setScroll( {top:self.realTop + self.kineticScrollSpeed*timeStep*5} );
+    self.kineticScrollSpeed *= .93;
+    
+    setTimeout( function(){
+      self.kineticScroll();
+    }, timeStep );
   }
   
   this.mouseDown = function( e ) {
@@ -325,13 +354,17 @@ Tab = function( div ) {
     self.startTop = self.getCurrentTop();
     self.startLeft = self.getCurrentLeft();
     
+    self.kineticScrollSpeed = 0;
+    self.mousePositions = [];
+    
     e.preventDefault();
   };
-  
+    
   this.mouseUp = function( e ) {
     function delayedZoomOut(){
       setTimeout( function(){
         hideUrlBar();
+        self.kineticScrollSpeed = 0;
         self.animateScroll({left:0, speed:200});
         makePagesDraggable();
         zui.zoomHere();
@@ -339,6 +372,15 @@ Tab = function( div ) {
     }
     
     self.mouseState = "up";
+    
+    var curMouse = self.mousePositions.pop();
+    var lastMouse = self.mousePositions.pop();
+    if( lastMouse ){
+      var xSpeed = (curMouse.y - lastMouse.y)/(curMouse.time-lastMouse.time);
+      if( Math.abs(xSpeed) > .1 )
+        self.kineticScroll( xSpeed );
+    }
+
   
     var cTop = self.realTop;
     if( cTop > 0 ){      
@@ -368,7 +410,7 @@ Tab = function( div ) {
         hideUrlBar();
       }
         
-      if( cLeft > 300 ){
+      if( cLeft > 212 ){
         delayedZoomOut();
       }
     }
@@ -376,7 +418,7 @@ Tab = function( div ) {
     if( cLeft < 0 ){
       self.animateScroll({left: 0, speed: 150});
       hideUrlBar();
-      if( cLeft < -300 ){
+      if( cLeft < -212 ){
         delayedZoomOut();
       }
     }
@@ -386,10 +428,20 @@ Tab = function( div ) {
   
   this.mouseMove = function( e ) {
     if( self.mouseState != "down" ) return;
+    
+    var minLateralMove = 15;
+    
+    var lateralMove = (self.startPos.x - e.clientX);
+    var left = self.startLeft - 2*lateralMove;
+    if( Math.abs(lateralMove) < minLateralMove ){ var left = self.startLeft; }
+    
     self.setScroll({
       top: self.startTop - 2*(self.startPos.y - e.clientY),
-      left: self.startLeft - 2*(self.startPos.x - e.clientX)
-    });    
+      left: left
+    });
+    
+    self.mousePositions.push({ x:e.clientX, y:e.clientY, time: new Date() });
+    if( self.mousePositions.length > 4 ) self.mousePositions.shift();
   };
   
 }
@@ -654,7 +706,7 @@ function unbindActions(){
 function init(){
   zui = new ZUI();
 
-  zui.add( new ZNewTab("gfx/BigPlus.png", 200, 200, "New Tab") );
+  zui.add( new ZNewTab("gfx/BigPlus.png", 200, 200, "") );
   zui.add( new ZScroll("tab_images/Bookmarks.gif", 700, 100, "Bookmarks") )
 
   zui.recalculateBoundingBox();
