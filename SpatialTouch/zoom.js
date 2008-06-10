@@ -8,7 +8,7 @@ function ZUI( ){
     this.boundingBox = {top:0, left:0, right:0, bottom: 0, width: 0, height: 0};
 
     this.inFind = false;
-    this.animationSpeed = 500;
+    this.animationSpeed = 400;
 
     this.setMouse = function( x, y){
         this.mousePos = [x,y];
@@ -524,6 +524,9 @@ var ZButton = Extend.Class({
   }
 })
 
+
+var rIndex = 0;
+
 var ZNewTab = Extend.Class({
   name: "ZNewTab",
   parent: ZButton,
@@ -551,8 +554,9 @@ var ZNewTab = Extend.Class({
       $(newTab.main).dblclick( function(){
         var images = [ "humanized.gif", "slashdot.gif", "toolness.gif", "reddit.gif" ];
         var names = ["Humanized", "Slashdot", "Toolness", "Reddit"]
-        var r = parseInt( Math.random()*images.length );
+        var r = rIndex;//parseInt( Math.random()*images.length );
         var navTab = new ZScroll("tab_images/" + images[r], newTab.x, newTab.y, names[r]);
+        rIndex = (rIndex+1) % images.length;
         zui.add( navTab );
         navTab.zoomHere();
         
@@ -635,14 +639,27 @@ function showUrlBar() {
     var image = document.createElement( "img" );
     image.src = "gfx/UrlBar.png";
     image.id = "urlbar";
-    $(image).css({
+    
+    var results = document.createElement( "img" );
+    results.src = "gfx/UrlResults.png";
+    results.id = "urlresults";
+    
+    var styles = {
       position: "fixed",
       top: 0,
       right: 0,
       zIndex: 10000,
-      opcaity: 0,
-    })
-    $(document.body).append( image );
+    };
+    
+    $(results).css(styles).hide();
+    
+    $(image)
+      .css(styles)
+      .hide()
+      .mousedown( function(){
+        $(results).fadeIn();
+      })
+    $(document.body).append( image ).append(results);
   }
 
   $("#urlbar:hidden").fadeIn();
@@ -650,6 +667,7 @@ function showUrlBar() {
 
 function hideUrlBar() {
   $("#urlbar:visible").fadeOut();
+  $("#urlresults:visible").fadeOut();  
 }
 
 function makePagesDraggable(){
