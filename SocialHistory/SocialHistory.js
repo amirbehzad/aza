@@ -160,6 +160,7 @@ var SocialHistory = function( moreSites ){
         // 2 = 1 for length of string + 1 for slice offset
         var httpLen = urls[i].indexOf("//") + 2;
         var withWWW = urls[i].substring(0, httpLen ) + "www." + urls[i].substring( httpLen );
+        embedLinkInIframe( withWWW, site );
       }
       
     }
