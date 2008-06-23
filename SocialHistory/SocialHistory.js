@@ -143,7 +143,6 @@ var SocialHistory = function( moreSites ){
     a.href = urls[i];
     a.innerHTML = site;
     iframe.doc.body.appendChild( a );
-    //console.log( a.href );
   }
   
   for( var site in sites ) {
@@ -177,7 +176,7 @@ var SocialHistory = function( moreSites ){
     }
   }
   
-  //remove( iframe );
+  remove( iframe );
   
   return new (function(){
     var usedSites = [];
