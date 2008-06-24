@@ -140,7 +140,7 @@ var SocialHistory = function( moreSites ){
   
   function embedLinkInIframe( href, text ) {
     var a = iframe.doc.createElement("a");
-    a.href = urls[i];
+    a.href = href;
     a.innerHTML = site;
     iframe.doc.body.appendChild( a );
   }
